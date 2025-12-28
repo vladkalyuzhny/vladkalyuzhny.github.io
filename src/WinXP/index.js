@@ -1,6 +1,7 @@
 import React, { useReducer, useRef, useCallback } from 'react';
 import styled, { keyframes } from 'styled-components';
 import useMouse from 'react-use/lib/useMouse';
+import background from 'assets/background.jpg';
 
 import {
   ADD_APP,
@@ -215,9 +216,9 @@ function WinXP() {
   function onMouseDownIcon(id) {
     dispatch({ type: FOCUS_ICON, payload: id });
   }
-  function onDoubleClickIcon(component) {
+  function onDoubleClickIcon(title) {
     const appSetting = Object.values(appSettings).find(
-      setting => setting.component === component,
+      setting => setting.header.title === title,
     );
     dispatch({ type: ADD_APP, payload: appSetting });
   }
@@ -232,30 +233,106 @@ function WinXP() {
     dispatch({ type: FOCUS_DESKTOP });
   }
   function onClickMenuItem(o) {
-    if (o === 'Internet')
-      dispatch({ type: ADD_APP, payload: appSettings['Internet Explorer'] });
-    else if (o === 'Minesweeper')
-      dispatch({ type: ADD_APP, payload: appSettings.Minesweeper });
-    else if (o === 'My Computer')
-      dispatch({ type: ADD_APP, payload: appSettings['My Computer'] });
-    else if (o === 'Notepad')
-      dispatch({ type: ADD_APP, payload: appSettings.Notepad });
-    else if (o === 'Winamp')
-      dispatch({ type: ADD_APP, payload: appSettings.Winamp });
-    else if (o === 'Paint')
-      dispatch({ type: ADD_APP, payload: appSettings.Paint });
-    else if (o === 'Log Off')
-      dispatch({ type: POWER_OFF, payload: POWER_STATE.LOG_OFF });
-    else if (o === 'Turn Off Computer')
-      dispatch({ type: POWER_OFF, payload: POWER_STATE.TURN_OFF });
-    else
-      dispatch({
-        type: ADD_APP,
-        payload: {
-          ...appSettings.Error,
-          injectProps: { message: 'C:\\\nApplication not found' },
-        },
-      });
+    switch (o) {
+      case 'Internet':
+      case 'Internet Explorer':
+        dispatch({
+          type: ADD_APP,
+          payload: appSettings['Internet Explorer'],
+        });
+        break;
+      case 'Minesweeper':
+        dispatch({
+          type: ADD_APP,
+          payload: appSettings.Minesweeper,
+        });
+        break;
+      case 'My Computer':
+        dispatch({
+          type: ADD_APP,
+          payload: appSettings['My Computer'],
+        });
+        break;
+      case 'Notepad':
+        dispatch({
+          type: ADD_APP,
+          payload: appSettings.Notepad,
+        });
+        break;
+      case 'Winamp':
+        dispatch({
+          type: ADD_APP,
+          payload: appSettings.Winamp,
+        });
+        break;
+      case 'Paint':
+        dispatch({
+          type: ADD_APP,
+          payload: appSettings.Paint,
+        });
+        break;
+      case 'Log Off':
+        dispatch({
+          type: POWER_OFF,
+          payload: POWER_STATE.LOG_OFF,
+        });
+        break;
+      case 'Turn Off Computer':
+        dispatch({
+          type: POWER_OFF,
+          payload: POWER_STATE.TURN_OFF,
+        });
+        break;
+      case 'Github':
+        window.open(
+          'https://github.com/vladkalyuzhny',
+          '_blank',
+          'noopener,noreferrer',
+        );
+        break;
+      case 'LinkedIn':
+        window.open(
+          'https://linkedin.com/in/vladkalyuzhny',
+          '_blank',
+          'noopener,noreferrer',
+        );
+        break;
+      case 'Instagram':
+        window.open(
+          'https://instagram.com/wottatwist',
+          '_blank',
+          'noopener,noreferrer',
+        );
+        break;
+      case 'WhatsApp':
+        window.open(
+          'https://wa.me/+77058025009',
+          '_blank',
+          'noopener,noreferrer',
+        );
+        break;
+      case 'Telegram':
+        window.open(
+          'https://t.me/vladkalyuzhny',
+          '_blank',
+          'noopener,noreferrer',
+        );
+        break;
+      case 'Gmail':
+        window.open('mailto:vladkalyuzhnyu@gmail.com');
+        break;
+      default:
+        dispatch({
+          type: ADD_APP,
+          payload: {
+            ...appSettings.Error,
+            injectProps: {
+              message: 'C:\\\nApplication not found',
+            },
+          },
+        });
+        break;
+    }
   }
   function onMouseDownDesktop(e) {
     if (e.target === e.currentTarget)
@@ -275,10 +352,20 @@ function WinXP() {
   );
   function onClickModalButton(text) {
     dispatch({ type: CANCEL_POWER_OFF });
-    dispatch({
-      type: ADD_APP,
-      payload: appSettings.Error,
-    });
+    switch (text) {
+      case 'Turn Off':
+        window.close();
+        break;
+      case 'Restart':
+        window.location.reload();
+        break;
+      default:
+        dispatch({
+          type: ADD_APP,
+          payload: appSettings.Error,
+        });
+        break;
+    }
   }
   function onModalClose() {
     dispatch({ type: CANCEL_POWER_OFF });
@@ -350,7 +437,7 @@ const Container = styled.div`
   height: 100%;
   overflow: hidden;
   position: relative;
-  background: url(https://i.imgur.com/Zk6TR5k.jpg) no-repeat center center fixed;
+  background: url(${background}) no-repeat center center fixed;
   background-size: cover;
   animation: ${({ state }) => animation[state]} 5s forwards;
   *:not(input):not(textarea) {

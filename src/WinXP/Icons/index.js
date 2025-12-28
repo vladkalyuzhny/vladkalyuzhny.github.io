@@ -60,7 +60,7 @@ function Icon({
     onMouseDown(id);
   }
   function _onDoubleClick() {
-    onDoubleClick(component);
+    onDoubleClick(title);
   }
   useEffect(() => {
     const target = ref.current;
@@ -90,7 +90,7 @@ function Icon({
 const IconsContainer = styled.div`
   position: absolute;
   margin-top: 40px;
-  margin-left: 40px;
+  margin-left: 30px;
 `;
 
 const StyledIcon = styled(Icon)`

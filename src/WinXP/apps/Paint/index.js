@@ -1,8 +1,10 @@
 import React from 'react';
 
-// add child div to capture mouse event when not focused
+const base = 'https://jspaint.app';
 
-function Paint({ onClose, isFocus }) {
+// add child div to capture mouse event when not focused
+function Paint({ onClose, isFocus, url }) {
+  const src = url ? `${base}#load:${url}` : base;
   return (
     <div
       style={{
@@ -12,7 +14,7 @@ function Paint({ onClose, isFocus }) {
       }}
     >
       <iframe
-        src="https://jspaint.app"
+        src={src}
         frameBorder="0"
         title="paint"
         style={{

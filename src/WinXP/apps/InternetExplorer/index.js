@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { WindowDropDowns, Google } from 'components';
+import { WindowDropDowns } from 'components';
 import dropDownData from './dropDownData';
 import ie from 'assets/windowsIcons/ie-paper.png';
 import printer from 'assets/windowsIcons/17(32x32).png';
@@ -22,24 +22,28 @@ import stop from 'assets/windowsIcons/stop.png';
 import windows from 'assets/windowsIcons/windows.png';
 import dropdown from 'assets/windowsIcons/dropdown.png';
 
-function InternetExplorer({ onClose }) {
-  const [state, setState] = useState({
-    route: 'main',
-    query: '',
-  });
-  function onSearch(str) {
-    if (str.length) {
-      setState({
-        route: 'search',
-        query: str,
-      });
+const START_URL = 'https://ru.wikipedia.org/w/index.php?search=';
+const HOME_URL = 'https://vladkalyuzhnyu.com';
+
+function InternetExplorer({ onClose, initialUrl = START_URL }) {
+  const [addressText, setAddressText] = useState(initialUrl);
+  const [addressUrl, setAddressUrl] = useState(initialUrl);
+  const [frameKey, setFrameKey] = useState(0);
+  function appendRandomParam(originalUrl) {
+    try {
+      const url = new URL(originalUrl, undefined);
+      url.searchParams.set('random', Date.now().toString(36));
+      return url.toString();
+    } catch (e) {
+      console.error(e);
+      return originalUrl;
     }
   }
-  function goMain() {
-    setState({
-      route: 'main',
-      query: '',
-    });
+  function navigateUrl(url) {
+    setFrameKey(k => k + 1);
+    setAddressText(url);
+    const randomizedUrl = appendRandomParam(url);
+    setAddressUrl(randomizedUrl);
   }
   function onClickOptionItem(item) {
     switch (item) {
@@ -47,10 +51,10 @@ function InternetExplorer({ onClose }) {
         onClose();
         break;
       case 'Home Page':
-      case 'Back':
-        goMain();
+        navigateUrl(HOME_URL);
         break;
       default:
+        break;
     }
   }
   return (
@@ -66,12 +70,7 @@ function InternetExplorer({ onClose }) {
         <img className="ie__windows-logo" src={windows} alt="windows" />
       </section>
       <section className="ie__function_bar">
-        <div
-          onClick={goMain}
-          className={`ie__function_bar__button${
-            state.route === 'main' ? '--disable' : ''
-          }`}
-        >
+        <div className="ie__function_bar__button--disable">
           <img className="ie__function_bar__icon" src={back} alt="" />
           <span className="ie__function_bar__text">Back</span>
           <div className="ie__function_bar__arrow" />
@@ -83,14 +82,20 @@ function InternetExplorer({ onClose }) {
         <div className="ie__function_bar__button">
           <img className="ie__function_bar__icon--margin-1" src={stop} alt="" />
         </div>
-        <div className="ie__function_bar__button">
+        <div
+          className="ie__function_bar__button"
+          onClick={() => navigateUrl(addressUrl)}
+        >
           <img
             className="ie__function_bar__icon--margin-1"
             src={refresh}
             alt=""
           />
         </div>
-        <div className="ie__function_bar__button" onClick={goMain}>
+        <div
+          className="ie__function_bar__button"
+          onClick={() => navigateUrl(HOME_URL)}
+        >
           <img className="ie__function_bar__icon--margin-1" src={home} alt="" />
         </div>
         <div className="ie__function_bar__separate" />
@@ -136,20 +141,28 @@ function InternetExplorer({ onClose }) {
         <div className="ie__address_bar__title">Address</div>
         <div className="ie__address_bar__content">
           <img src={ie} alt="ie" className="ie__address_bar__content__img" />
-          <div className="ie__address_bar__content__text">
-            {`https://www.google.com.tw${
-              state.route === 'search'
-                ? `/search?q=${encodeURIComponent(state.query)}`
-                : ''
-            }`}
-          </div>
+          <input
+            className="ie__address_bar__content__text"
+            value={addressText}
+            placeholder="https://"
+            onChange={e => setAddressText(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                navigateUrl(addressText);
+              }
+            }}
+            spellCheck={false}
+          />
           <img
             src={dropdown}
             alt="dropdown"
             className="ie__address_bar__content__img"
           />
         </div>
-        <div className="ie__address_bar__go">
+        <div
+          className="ie__address_bar__go"
+          onClick={() => navigateUrl(addressText)}
+        >
           <img className="ie__address_bar__go__img" src={go} alt="go" />
           <span className="ie__address_bar__go__text">Go</span>
         </div>
@@ -165,12 +178,14 @@ function InternetExplorer({ onClose }) {
       </section>
       <div className="ie__content">
         <div className="ie__content__inner">
-          <Google
-            route={state.route}
-            query={state.query}
-            onSearch={onSearch}
-            goMain={goMain}
-          />
+          <iframe
+            key={frameKey}
+            src={addressUrl}
+            className="ie__iframe"
+            title=""
+          >
+            Your browser does not support iframes
+          </iframe>
         </div>
       </div>
       <footer className="ie__footer">
@@ -361,10 +376,25 @@ const Div = styled.div`
     padding: 0 18px 0 5px;
     height: 100%;
     position: relative;
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 3px;
     &__img {
       height: 95%;
       border: 1px solid rgba(255, 255, 255, 0.2);
       margin-right: 3px;
+    }
+    &:hover {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+    }
+    &:hover:active {
+      border: 1px solid rgb(185, 185, 185);
+      background-color: #dedede;
+      box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.7);
+      & > * {
+        transform: translate(1px, 1px);
+      }
     }
   }
   .ie__address_bar__links {
@@ -392,18 +422,31 @@ const Div = styled.div`
   }
   .ie__content {
     flex: 1;
-    overflow: auto;
+    overflow: hidden;
+    display: flex;
+    min-height: 0;
+    min-width: 0;
     padding-left: 1px;
     border-left: 1px solid #6f6f6f;
     background-color: #f1f1f1;
     position: relative;
   }
   .ie__content__inner {
-    position: relative;
-    min-height: 800px;
-    min-width: 800px;
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    min-width: 0;
     width: 100%;
     height: 100%;
+    position: relative;
+  }
+  .ie__iframe {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    border: none;
+    min-width: 0;
+    min-height: 0;
   }
   .ie__footer {
     height: 20px;

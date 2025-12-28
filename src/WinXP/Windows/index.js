@@ -200,6 +200,9 @@ const StyledWindow = styled(Window)`
     left: 3px;
     right: 3px;
     align-items: center;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
   }
   .app__header__icon {
     width: 15px;

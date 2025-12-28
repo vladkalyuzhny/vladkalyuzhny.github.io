@@ -9,13 +9,19 @@ function useElementResize(ref, options) {
     resizeThreshold = 10,
     constraintSize = 200,
   } = options;
-  const [offset, setOffset] = useState(defaultOffset);
+  const [offset, setOffset] = useState(
+    defaultOffset ?? {
+      x: (window.innerWidth - defaultSize.width) / 2,
+      y: (window.innerHeight - defaultSize.height) / 2,
+    },
+  );
   const [size, setSize] = useState(defaultSize);
   const cursorPos = useCursor(ref, resizeThreshold, resizable);
   useEffect(() => {
     const target = ref.current;
     if (!target) return;
     const dragTarget = options.dragRef && options.dragRef.current;
+    const touchOptions = { passive: false };
     const cover = document.createElement('div');
     cover.style.position = 'fixed';
     cover.style.top = 0;
@@ -46,10 +52,16 @@ function useElementResize(ref, options) {
       previousOffset.y += pageY - originMouseY;
       window.removeEventListener('mousemove', onDragging);
       window.removeEventListener('mouseup', onDragEnd);
+      window.removeEventListener('touchmove', onDragging, touchOptions);
+      window.removeEventListener('touchend', onDragEnd);
+      window.removeEventListener('touchcancel', onDragEnd);
     }
-    function onDragStart(e) {
+    function onDragStart() {
       window.addEventListener('mousemove', onDragging);
       window.addEventListener('mouseup', onDragEnd);
+      window.addEventListener('touchmove', onDragging, touchOptions);
+      window.addEventListener('touchend', onDragEnd);
+      window.addEventListener('touchcancel', onDragEnd);
     }
     function onDraggingTop(e) {
       const { pageY } = getComputedPagePosition(e, _boundary);
@@ -62,10 +74,16 @@ function useElementResize(ref, options) {
       previousOffset.y += pageY - originMouseY;
       window.removeEventListener('mousemove', onDraggingTop);
       window.removeEventListener('mouseup', onDragEndTop);
+      window.removeEventListener('touchmove', onDraggingTop, touchOptions);
+      window.removeEventListener('touchend', onDragEndTop);
+      window.removeEventListener('touchcancel', onDragEndTop);
     }
-    function onDragStartTop(e) {
+    function onDragStartTop() {
       window.addEventListener('mousemove', onDraggingTop);
       window.addEventListener('mouseup', onDragEndTop);
+      window.addEventListener('touchmove', onDraggingTop, touchOptions);
+      window.addEventListener('touchend', onDragEndTop);
+      window.addEventListener('touchcancel', onDragEndTop);
     }
     function onDraggingLeft(e) {
       const { pageX } = getComputedPagePosition(e, _boundary);
@@ -78,10 +96,16 @@ function useElementResize(ref, options) {
       previousOffset.x += pageX - originMouseX;
       window.removeEventListener('mousemove', onDraggingLeft);
       window.removeEventListener('mouseup', onDragEndLeft);
+      window.removeEventListener('touchmove', onDraggingLeft, touchOptions);
+      window.removeEventListener('touchend', onDragEndLeft);
+      window.removeEventListener('touchcancel', onDragEndLeft);
     }
-    function onDragStartLeft(e) {
+    function onDragStartLeft() {
       window.addEventListener('mousemove', onDraggingLeft);
       window.addEventListener('mouseup', onDragEndLeft);
+      window.addEventListener('touchmove', onDraggingLeft, touchOptions);
+      window.addEventListener('touchend', onDragEndLeft);
+      window.addEventListener('touchcancel', onDragEndLeft);
     }
     function onResizingRight(e) {
       const { pageX } = getComputedPagePosition(e, _boundary);
@@ -94,10 +118,16 @@ function useElementResize(ref, options) {
       previousSize.width += pageX - originMouseX;
       window.removeEventListener('mousemove', onResizingRight);
       window.removeEventListener('mouseup', onResizeEndRight);
+      window.removeEventListener('touchmove', onResizingRight, touchOptions);
+      window.removeEventListener('touchend', onResizeEndRight);
+      window.removeEventListener('touchcancel', onResizeEndRight);
     }
-    function onResizeStartRight(e) {
+    function onResizeStartRight() {
       window.addEventListener('mousemove', onResizingRight);
       window.addEventListener('mouseup', onResizeEndRight);
+      window.addEventListener('touchmove', onResizingRight, touchOptions);
+      window.addEventListener('touchend', onResizeEndRight);
+      window.addEventListener('touchcancel', onResizeEndRight);
     }
     function onResizingBottom(e) {
       const { pageY } = getComputedPagePosition(e, _boundary);
@@ -110,10 +140,16 @@ function useElementResize(ref, options) {
       previousSize.height += pageY - originMouseY;
       window.removeEventListener('mousemove', onResizingBottom);
       window.removeEventListener('mouseup', onResizeEndBottom);
+      window.removeEventListener('touchmove', onResizingBottom, touchOptions);
+      window.removeEventListener('touchend', onResizeEndBottom);
+      window.removeEventListener('touchcancel', onResizeEndBottom);
     }
-    function onResizeStartBottom(e) {
+    function onResizeStartBottom() {
       window.addEventListener('mousemove', onResizingBottom);
       window.addEventListener('mouseup', onResizeEndBottom);
+      window.addEventListener('touchmove', onResizingBottom, touchOptions);
+      window.addEventListener('touchend', onResizeEndBottom);
+      window.addEventListener('touchcancel', onResizeEndBottom);
     }
     function onResizingLeft(e) {
       const { pageX } = getComputedPagePosition(e, _boundary);
@@ -126,10 +162,16 @@ function useElementResize(ref, options) {
       previousSize.width += -pageX + originMouseX;
       window.removeEventListener('mousemove', onResizingLeft);
       window.removeEventListener('mouseup', onResizeEndLeft);
+      window.removeEventListener('touchmove', onResizingLeft, touchOptions);
+      window.removeEventListener('touchend', onResizeEndLeft);
+      window.removeEventListener('touchcancel', onResizeEndLeft);
     }
-    function onResizeStartLeft(e) {
+    function onResizeStartLeft() {
       window.addEventListener('mousemove', onResizingLeft);
       window.addEventListener('mouseup', onResizeEndLeft);
+      window.addEventListener('touchmove', onResizingLeft, touchOptions);
+      window.addEventListener('touchend', onResizeEndLeft);
+      window.addEventListener('touchcancel', onResizeEndLeft);
     }
     function onResizingTop(e) {
       const { pageY } = getComputedPagePosition(e, _boundary);
@@ -142,10 +184,16 @@ function useElementResize(ref, options) {
       previousSize.height += -pageY + originMouseY;
       window.removeEventListener('mousemove', onResizingTop);
       window.removeEventListener('mouseup', onResizeEndTop);
+      window.removeEventListener('touchmove', onResizingTop, touchOptions);
+      window.removeEventListener('touchend', onResizeEndTop);
+      window.removeEventListener('touchcancel', onResizeEndTop);
     }
-    function onResizeStartTop(e) {
+    function onResizeStartTop() {
       window.addEventListener('mousemove', onResizingTop);
       window.addEventListener('mouseup', onResizeEndTop);
+      window.addEventListener('touchmove', onResizingTop, touchOptions);
+      window.addEventListener('touchend', onResizeEndTop);
+      window.addEventListener('touchcancel', onResizeEndTop);
     }
     function onResizingTopLeft(e) {
       const { pageX, pageY } = getComputedPagePosition(e, _boundary);
@@ -159,10 +207,16 @@ function useElementResize(ref, options) {
       previousSize.height += -pageY + originMouseY;
       window.removeEventListener('mousemove', onResizingTopLeft);
       window.removeEventListener('mouseup', onResizeEndTopLeft);
+      window.removeEventListener('touchmove', onResizingTopLeft, touchOptions);
+      window.removeEventListener('touchend', onResizeEndTopLeft);
+      window.removeEventListener('touchcancel', onResizeEndTopLeft);
     }
-    function onResizeStartTopLeft(e) {
+    function onResizeStartTopLeft() {
       window.addEventListener('mousemove', onResizingTopLeft);
       window.addEventListener('mouseup', onResizeEndTopLeft);
+      window.addEventListener('touchmove', onResizingTopLeft, touchOptions);
+      window.addEventListener('touchend', onResizeEndTopLeft);
+      window.addEventListener('touchcancel', onResizeEndTopLeft);
     }
     function onResizingTopRight(e) {
       const { pageX, pageY } = getComputedPagePosition(e, _boundary);
@@ -176,10 +230,16 @@ function useElementResize(ref, options) {
       previousSize.height += -pageY + originMouseY;
       window.removeEventListener('mousemove', onResizingTopRight);
       window.removeEventListener('mouseup', onResizeEndTopRight);
+      window.removeEventListener('touchmove', onResizingTopRight, touchOptions);
+      window.removeEventListener('touchend', onResizeEndTopRight);
+      window.removeEventListener('touchcancel', onResizeEndTopRight);
     }
-    function onResizeStartTopRight(e) {
+    function onResizeStartTopRight() {
       window.addEventListener('mousemove', onResizingTopRight);
       window.addEventListener('mouseup', onResizeEndTopRight);
+      window.addEventListener('touchmove', onResizingTopRight, touchOptions);
+      window.addEventListener('touchend', onResizeEndTopRight);
+      window.addEventListener('touchcancel', onResizeEndTopRight);
     }
     function onResizingBottomLeft(e) {
       const { pageX, pageY } = getComputedPagePosition(e, _boundary);
@@ -193,10 +253,20 @@ function useElementResize(ref, options) {
       previousSize.height += pageY - originMouseY;
       window.removeEventListener('mousemove', onResizingBottomLeft);
       window.removeEventListener('mouseup', onResizeEndBottomLeft);
+      window.removeEventListener(
+        'touchmove',
+        onResizingBottomLeft,
+        touchOptions,
+      );
+      window.removeEventListener('touchend', onResizeEndBottomLeft);
+      window.removeEventListener('touchcancel', onResizeEndBottomLeft);
     }
-    function onResizeStartBottomLeft(e) {
+    function onResizeStartBottomLeft() {
       window.addEventListener('mousemove', onResizingBottomLeft);
       window.addEventListener('mouseup', onResizeEndBottomLeft);
+      window.addEventListener('touchmove', onResizingBottomLeft, touchOptions);
+      window.addEventListener('touchend', onResizeEndBottomLeft);
+      window.addEventListener('touchcancel', onResizeEndBottomLeft);
     }
     function onResizingBottomRight(e) {
       const { pageX, pageY } = getComputedPagePosition(e, _boundary);
@@ -210,16 +280,27 @@ function useElementResize(ref, options) {
       previousSize.height += pageY - originMouseY;
       window.removeEventListener('mousemove', onResizingBottomRight);
       window.removeEventListener('mouseup', onResizeEndBottomRight);
+      window.removeEventListener(
+        'touchmove',
+        onResizingBottomRight,
+        touchOptions,
+      );
+      window.removeEventListener('touchend', onResizeEndBottomRight);
+      window.removeEventListener('touchcancel', onResizeEndBottomRight);
     }
-    function onResizeStartBottomRight(e) {
+    function onResizeStartBottomRight() {
       window.addEventListener('mousemove', onResizingBottomRight);
       window.addEventListener('mouseup', onResizeEndBottomRight);
+      window.addEventListener('touchmove', onResizingBottomRight, touchOptions);
+      window.addEventListener('touchend', onResizeEndBottomRight);
+      window.addEventListener('touchcancel', onResizeEndBottomRight);
     }
     function onMouseDown(e) {
-      originMouseX = e.pageX;
-      originMouseY = e.pageY;
+      const { pageX, pageY } = getComputedPagePosition(e);
+      originMouseX = pageX;
+      originMouseY = pageY;
       _boundary = { ...boundary };
-      if (dragTarget && e.target === dragTarget) {
+      if (dragTarget && dragTarget.contains(e.target)) {
         shouldCover = true;
         return onDragStart(e);
       }
@@ -273,14 +354,25 @@ function useElementResize(ref, options) {
       }
     }
     target.addEventListener('mousedown', onMouseDown);
+    target.addEventListener('touchstart', onMouseDown, touchOptions);
     return () => {
       target.removeEventListener('mousedown', onMouseDown);
+      target.removeEventListener('touchstart', onMouseDown, touchOptions);
       window.removeEventListener('mousemove', onDraggingLeft);
       window.removeEventListener('mousemove', onDraggingTop);
       window.removeEventListener('mousemove', onDragging);
       window.removeEventListener('mouseup', onDragEndTop);
       window.removeEventListener('mouseup', onDragEndLeft);
       window.removeEventListener('mouseup', onDragEnd);
+      window.removeEventListener('touchmove', onDraggingLeft, touchOptions);
+      window.removeEventListener('touchmove', onDraggingTop, touchOptions);
+      window.removeEventListener('touchmove', onDragging, touchOptions);
+      window.removeEventListener('touchend', onDragEndTop);
+      window.removeEventListener('touchend', onDragEndLeft);
+      window.removeEventListener('touchend', onDragEnd);
+      window.removeEventListener('touchcancel', onDragEndTop);
+      window.removeEventListener('touchcancel', onDragEndLeft);
+      window.removeEventListener('touchcancel', onDragEnd);
       window.removeEventListener('mousemove', onResizingTop);
       window.removeEventListener('mousemove', onResizingRight);
       window.removeEventListener('mousemove', onResizingBottom);
@@ -289,6 +381,22 @@ function useElementResize(ref, options) {
       window.removeEventListener('mousemove', onResizingTopLeft);
       window.removeEventListener('mousemove', onResizingTopRight);
       window.removeEventListener('mousemove', onResizingBottomRight);
+      window.removeEventListener('touchmove', onResizingTop, touchOptions);
+      window.removeEventListener('touchmove', onResizingRight, touchOptions);
+      window.removeEventListener('touchmove', onResizingBottom, touchOptions);
+      window.removeEventListener('touchmove', onResizingLeft, touchOptions);
+      window.removeEventListener(
+        'touchmove',
+        onResizingBottomLeft,
+        touchOptions,
+      );
+      window.removeEventListener('touchmove', onResizingTopLeft, touchOptions);
+      window.removeEventListener('touchmove', onResizingTopRight, touchOptions);
+      window.removeEventListener(
+        'touchmove',
+        onResizingBottomRight,
+        touchOptions,
+      );
       window.removeEventListener('mouseup', onResizeEndTop);
       window.removeEventListener('mouseup', onResizeEndRight);
       window.removeEventListener('mouseup', onResizeEndBottom);
@@ -297,6 +405,22 @@ function useElementResize(ref, options) {
       window.removeEventListener('mouseup', onResizeEndTopLeft);
       window.removeEventListener('mouseup', onResizeEndTopRight);
       window.removeEventListener('mouseup', onResizeEndBottomRight);
+      window.removeEventListener('touchend', onResizeEndTop);
+      window.removeEventListener('touchend', onResizeEndRight);
+      window.removeEventListener('touchend', onResizeEndBottom);
+      window.removeEventListener('touchend', onResizeEndLeft);
+      window.removeEventListener('touchend', onResizeEndBottomLeft);
+      window.removeEventListener('touchend', onResizeEndTopLeft);
+      window.removeEventListener('touchend', onResizeEndTopRight);
+      window.removeEventListener('touchend', onResizeEndBottomRight);
+      window.removeEventListener('touchcancel', onResizeEndTop);
+      window.removeEventListener('touchcancel', onResizeEndRight);
+      window.removeEventListener('touchcancel', onResizeEndBottom);
+      window.removeEventListener('touchcancel', onResizeEndLeft);
+      window.removeEventListener('touchcancel', onResizeEndBottomLeft);
+      window.removeEventListener('touchcancel', onResizeEndTopLeft);
+      window.removeEventListener('touchcancel', onResizeEndTopRight);
+      window.removeEventListener('touchcancel', onResizeEndBottomRight);
       cover.remove();
     };
     // eslint-disable-next-line
@@ -327,12 +451,12 @@ function useCursor(ref, threshold, resizable) {
       document.body.appendChild(cover);
       window.addEventListener('mouseup', onMouseUp);
     }
-    function onMouseUp(e) {
+    function onMouseUp() {
       lock = false;
       cover.remove();
       window.removeEventListener('mouseup', onMouseUp);
     }
-    function onHoverEnd(e) {
+    function onHoverEnd() {
       if (lock) return;
       _setPosition('');
     }
@@ -380,7 +504,11 @@ function useCursor(ref, threshold, resizable) {
 }
 
 function getComputedPagePosition(e, boundary) {
-  let { pageX, pageY } = e;
+  if (e && e.cancelable && e.type === 'touchmove') e.preventDefault();
+  const t =
+    (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]);
+  let pageX = t ? t.pageX : e.pageX;
+  let pageY = t ? t.pageY : e.pageY;
   if (!boundary) return { pageX, pageY };
   const { top, right, bottom, left } = boundary;
   if (pageX <= left) pageX = left;

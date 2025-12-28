@@ -1,12 +1,15 @@
 // from Webamp demo
 
-const album = 'netBloc Vol. 24: tiuqottigeloot';
+const album = "Vlads' album";
+const baseUrl =
+  'https://raw.githubusercontent.com/vladkalyuzhny/vladkalyuzhny.github.io/site/music';
+
+const makeUrl = fileName => `${baseUrl}/${encodeURIComponent(fileName)}`;
 
 export const initialTracks = [
   {
-    url:
-      'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/Diablo_Swing_Orchestra_-_01_-_Heroines.mp3',
-    duration: 322.612245,
+    url: makeUrl('Diablo Swing Orchestra - Heroines.mp3'),
+    duration: 322, // 5:22
     metaData: {
       title: 'Heroines',
       artist: 'Diablo Swing Orchestra',
@@ -14,112 +17,83 @@ export const initialTracks = [
     },
   },
   {
-    url:
-      'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/Eclectek_-_02_-_We_Are_Going_To_Eclecfunk_Your_Ass.mp3',
-    duration: 190.093061,
+    url: makeUrl('The Prodigy - Spitfire (Original Mix).mp3'),
+    duration: 206, // 3:26
     metaData: {
-      title: 'We Are Going To Eclecfunk Your Ass',
-      artist: 'Eclectek',
+      title: 'Spitfire (Original Mix)',
+      artist: 'The Prodigy',
       album,
     },
   },
   {
-    url:
-      'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/Auto-Pilot_-_03_-_Seventeen.mp3',
-    duration: 214.622041,
+    url: makeUrl('Gorillaz - On Melancholy Hill.mp3'),
+    duration: 233, // 3:53
     metaData: {
-      title: 'Seventeen',
-      artist: 'Auto-Pilot',
+      title: 'On Melancholy Hill',
+      artist: 'Gorillaz',
       album,
     },
   },
   {
-    url:
-      'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/Muha_-_04_-_Microphone.mp3',
-    duration: 181.838367,
+    url: makeUrl('Scorpions - Humanity.mp3'),
+    duration: 326, // 5:26
     metaData: {
-      title: 'Microphone',
-      artist: 'Muha',
+      title: 'Humanity',
+      artist: 'Scorpions',
       album,
     },
   },
   {
-    url:
-      'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/Just_Plain_Ant_-_05_-_Stumble.mp3',
-    duration: 86.047347,
+    url: makeUrl('Avenged Sevenfold - Hail To The King.mp3'),
+    duration: 305, // 5:05
     metaData: {
-      title: 'Stumble',
-      artist: 'Just Plain Ant',
+      title: 'Hail To The King',
+      artist: 'Avenged Sevenfold',
       album,
     },
   },
   {
-    url:
-      'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/Sleaze_-_06_-_God_Damn.mp3',
-    duration: 226.795102,
+    url: makeUrl('Bring Me The Horizon - Can You Feel My Heart.mp3'),
+    duration: 227, // 3:47
     metaData: {
-      title: 'God Damn',
-      artist: 'Sleaze',
+      title: 'Can You Feel My Heart',
+      artist: 'Bring Me The Horizon',
       album,
     },
   },
   {
-    url:
-      'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/Juanitos_-_07_-_Hola_Hola_Bossa_Nova.mp3',
-    duration: 207.072653,
+    url: makeUrl('Muse - Time Is Running Out.mp3'),
+    duration: 236, // 3:56
     metaData: {
-      title: 'Hola Hola Bossa Nova',
-      artist: 'Juanitos',
+      title: 'Time Is Running Out',
+      artist: 'Muse',
       album,
     },
   },
   {
-    url:
-      'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/Entertainment_for_the_Braindead_-_08_-_Resolutions_Chris_Summer_Remix.mp3',
-    duration: 314.331429,
+    url: makeUrl('System Of A Down - B.Y.O.B..mp3'),
+    duration: 255, // 4:15
     metaData: {
-      title: 'Resolutions (Chris Summer Remix)',
-      artist: 'Entertainment for the Braindead',
+      title: 'B.Y.O.B.',
+      artist: 'System Of A Down',
       album,
     },
   },
   {
-    url:
-      'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/Nobara_Hayakawa_-_09_-_Trail.mp3',
-    duration: 204.042449,
+    url: makeUrl('Papa Roach - Last Resort.mp3'),
+    duration: 200, // 3:20
     metaData: {
-      title: 'Trail',
-      artist: 'Nobara Hayakawa',
+      title: 'Last Resort',
+      artist: 'Papa Roach',
       album,
     },
   },
   {
-    url:
-      'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/Paper_Navy_-_10_-_Tongue_Tied.mp3',
-    duration: 201.116735,
+    url: makeUrl("Linkin Park - What I've Done.mp3"),
+    duration: 205, // 3:25
     metaData: {
-      title: 'Tongue Tied',
-      artist: 'Paper Navy',
-      album,
-    },
-  },
-  {
-    url:
-      'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/60_Tigres_-_11_-_Garage.mp3',
-    duration: 245.394286,
-    metaData: {
-      title: 'Garage',
-      artist: '60 Tigres',
-      album,
-    },
-  },
-  {
-    url:
-      'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/CM_aka_Creative_-_12_-_The_Cycle_Featuring_Mista_Mista.mp3',
-    duration: 221.44,
-    metaData: {
-      title: 'The Cycle (Featuring Mista Mista)',
-      artist: 'CM aka Creative',
+      title: "What I've Done",
+      artist: 'Linkin Park',
       album,
     },
   },
