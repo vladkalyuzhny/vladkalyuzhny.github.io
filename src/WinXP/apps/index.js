@@ -298,10 +298,15 @@ export const appSettings = {
     multiInstance: true,
     injectProps: {
       initText: `
-• M4Bank — Senior Android Developer | Almaty
-  Mar 2025 – Nowadays
+• Eurasian bank — Expert Developer | Almaty
+  Apr 2026 – Nowadays
 
-  Developing an Android payments SDK for POS terminals (Aisino, ND3/ND5) used by banks for acquiring
+  Developing of Smart Business online banking app for individual entrepreneurs and LLPs
+  
+• M4Bank — Senior Android Developer | Almaty
+  Mar 2025 – Feb 2026
+
+  Developed an Android payments SDK for POS terminals (Aisino, ND3/ND5) used by banks for acquiring
 
 • PingOcean — Middle Android Developer | Almaty
   Jun 2023 – Feb 2025
