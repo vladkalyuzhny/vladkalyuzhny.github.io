@@ -16,7 +16,6 @@ import notepadLarge from 'assets/windowsIcons/327(32x32).png';
 import winamp from 'assets/windowsIcons/winamp.png';
 import paint from 'assets/windowsIcons/680(16x16).png';
 import pictureJpg from 'assets/windowsIcons/Picture_JPG.ico';
-import loveLetter from 'assets/windowsIcons/love-letter.png';
 
 const aboutText = `
 Software engineer with 6+ years of experience building mobile apps, websites, and backend services
@@ -28,8 +27,6 @@ Platforms: Android SDK/NDK, Flutter, Kotlin Multiplatform, Node.js
 Frameworks/Libraries: Android Jetpack, Dagger/Hilt, Room, Retrofit/Ktor, Angular
 Tools: Linux/macOS/Windows, IntelliJ IDEA, Git
 `.trim();
-const BANU_URL = 'https://codepen.io/xbcgqqjq-the-sasster/full/pvbGXyE';
-const isBanuMode = new URLSearchParams(window.location.search).has('banu');
 
 const gen = () => {
   let id = -1;
@@ -41,53 +38,29 @@ const gen = () => {
 const genId = gen();
 const genIndex = gen();
 export const defaultAppState = [
-  isBanuMode
-    ? {
-        component: InternetExplorer,
-        header: {
-          title: 'Для Бану',
-          icon: iePaper,
-        },
-        defaultSize: {
-          width: 500,
-          height: 700,
-        },
-        defaultOffset: {
-          x: 150,
-          y: 40,
-        },
-        resizable: true,
-        minimized: false,
-        maximized: window.innerWidth < 800,
-        id: genId(),
-        zIndex: genIndex(),
-        injectProps: {
-          initialUrl: BANU_URL,
-        },
-      }
-    : {
-        component: Notepad,
-        header: {
-          title: 'About me',
-          icon: notepad,
-        },
-        defaultSize: {
-          width: 900,
-          height: 500,
-        },
-        defaultOffset: {
-          x: 150,
-          y: 110,
-        },
-        resizable: true,
-        minimized: false,
-        maximized: window.innerWidth < 800,
-        id: genId(),
-        zIndex: genIndex(),
-        injectProps: {
-          initText: aboutText,
-        },
-      },
+  {
+    component: Notepad,
+    header: {
+      title: 'About me',
+      icon: notepad,
+    },
+    defaultSize: {
+      width: 900,
+      height: 500,
+    },
+    defaultOffset: {
+      x: 150,
+      y: 110,
+    },
+    resizable: true,
+    minimized: false,
+    maximized: window.innerWidth < 800,
+    id: genId(),
+    zIndex: genIndex(),
+    injectProps: {
+      initText: aboutText,
+    },
+  },
 ];
 
 export const defaultIconState = [
@@ -133,17 +106,6 @@ export const defaultIconState = [
     component: InternetExplorer,
     isFocus: false,
   },
-  ...(isBanuMode
-    ? [
-        {
-          id: 6,
-          icon: loveLetter,
-          title: 'Для Бану',
-          component: InternetExplorer,
-          isFocus: false,
-        },
-      ]
-    : []),
 ];
 
 export const appSettings = {
@@ -178,24 +140,6 @@ export const appSettings = {
     multiInstance: true,
     injectProps: {
       initialUrl: 'https://vladkalyuzhnyu.com/projects/AngularEpubViewer',
-    },
-  },
-  'Для Бану': {
-    header: {
-      icon: iePaper,
-      title: 'Для Бану',
-    },
-    component: InternetExplorer,
-    defaultSize: {
-      width: 500,
-      height: 700,
-    },
-    resizable: true,
-    minimized: false,
-    maximized: window.innerWidth < 800,
-    multiInstance: true,
-    injectProps: {
-      initialUrl: BANU_URL,
     },
   },
   Minesweeper: {
